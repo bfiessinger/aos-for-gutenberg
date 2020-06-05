@@ -1,0 +1,35 @@
+{
+  "name": "aos-for-gutenberg",
+  "version": "1.0.0",
+  "description": "AOS Animations for the WordPress Gutenberg Editor",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack"
+  },
+  "keywords": [
+    "aos",
+    "animate",
+    "on",
+    "scroll",
+    "animations",
+    "scroll"
+  ],
+  "author": "Bastian Fießinger",
+  "license": "GPL-3.0-or-later",
+  "dependencies": {
+    "aos": "^2.3.4"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.9.6",
+    "@babel/preset-react": "^7.9.4",
+    "babel-loader": "^8.1.0",
+    "css-loader": "^3.5.3",
+    "glob-all": "^3.2.1",
+    "mini-css-extract-plugin": "^0.9.0",
+    "node-sass": "^4.14.1",
+    "sass-loader": "^8.0.2",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.11.0"
+  }
+}
