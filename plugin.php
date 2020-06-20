@@ -12,6 +12,8 @@ namespace bf\gutenberg\aos;
 
 class aos {
 
+	public $use_aos_for_post = false;
+
 	/**
 	 * Static variable for instanciation
 	 */
@@ -42,7 +44,8 @@ class aos {
 
 	function define_constants() {
 
-		define( 'gutenberg_aos_plugin_url', plugin_dir_url( __FILE__ ) );
+		if ( ! defined( 'gutenberg_aos_plugin_url' ) )
+			define( 'gutenberg_aos_plugin_url', plugin_dir_url( __FILE__ ) );
 
 	}
 
@@ -50,6 +53,9 @@ class aos {
 
 		// Enqueue Editor Scripts
 		add_action( 'enqueue_block_editor_assets', [ $this, 'enqueue_block_editor_assets' ], 202 );
+
+		// Register FrontEnd Scripts
+		add_action( 'init', [ $this, 'register_aos_script' ] );
 
 		// Enqueue FrontEnd Scripts
 		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_aos_script' ] );
@@ -76,9 +82,9 @@ class aos {
 
 	}
 
-	function enqueue_aos_script() {
+	function register_aos_script() {
 
-		wp_enqueue_script( 
+		wp_register_script( 
 			'aos',
 			gutenberg_aos_plugin_url . 'dist/js/aos.js',
 			[],
@@ -86,13 +92,54 @@ class aos {
 			true
 		);
 
-		wp_enqueue_style(
+		wp_register_style(
 			'aos',
 			gutenberg_aos_plugin_url . 'dist/css/aos.css',
 			[],
 			null,
 			'all'
 		);
+
+	}
+
+	private function check_inner_blocks( array $blocks ) {
+
+		foreach ( $blocks as $block ) {
+
+			// Stop when an AOS Block was found
+			if ( is_array( $block ) && $this->block_is_aos( $block ) )
+				return;
+
+			// Recursively check innerBlocks Array
+			if ( isset( $block['innerBlocks'] ) && is_array( $block['innerBlocks'] ) && ! empty( $block['innerBlocks'] ) )
+				$this->check_inner_blocks( $block );
+
+		}
+
+	}
+
+	private function block_is_aos( array $block ) {
+
+		if ( isset( $block['attrs']['gutenbergUseAOS'] ) && $block['attrs']['gutenbergUseAOS'] !== FALSE ) {
+			$this->use_aos_for_post = true;
+			return true;
+		}
+		
+		return false;
+
+	}
+
+	function enqueue_aos_script() {
+
+		global $post;
+		$blocks_parsed = parse_blocks( $post->post_content );
+
+		$this->check_inner_blocks( $blocks_parsed );
+
+		if ( $this->use_aos_for_post !== FALSE ) {
+			wp_enqueue_script( 'aos' );
+			wp_enqueue_style(	'aos' );
+		}
 
 	}
 
