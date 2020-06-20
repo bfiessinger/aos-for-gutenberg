@@ -5,7 +5,7 @@
  * Description: Animate Gutenberg Blocks on scroll
  * Version: 1.0.0
  * Author: Bastian Fießinger
- * AuthorURI: https://github.com/bfiessinger/
+ * Author URI: https://github.com/bfiessinger/
  */
 
 namespace bf\gutenberg\aos;
