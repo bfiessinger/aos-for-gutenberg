@@ -9,7 +9,7 @@ const { createHigherOrderComponent, withState } = wp.compose;
 const { ToggleControl, SelectControl, PanelBody, PanelRow } = wp.components;
 
 /**
- * Add custom attribute for mobile visibility.
+ * Add custom attribute for AOS.
  *
  * @param {Object} settings Settings for the block.
  *
@@ -45,7 +45,16 @@ function gutenbergAOSAttributes(settings) {
  * @return {function} BlockEdit Modified block edit component.
  */
 const gutenbergAOSControls = createHigherOrderComponent((BlockEdit) => {
+
 	return (props) => {
+
+		if (props.name.substring(0, 5) !== 'core/') {
+			return (
+				<Fragment>
+					<BlockEdit {...props} />
+				</Fragment>
+			);
+		}
 
 		const {
 			attributes,
@@ -187,6 +196,10 @@ const gutenbergAOSControls = createHigherOrderComponent((BlockEdit) => {
  * @return {Object} extraProps Modified block element.
  */
 function gutenbergAOSApplyAttributes(extraProps, blockType, attributes) {
+
+	if (blockType.name.substring(0, 5) !== 'core/') {
+		return extraProps;
+	}
 
 	const {
 		gutenbergUseAOS,
