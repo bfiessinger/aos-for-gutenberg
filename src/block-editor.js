@@ -86,6 +86,13 @@ const gutenbergAOSControls = createHigherOrderComponent((BlockEdit) => {
 									label="Animation"
 									value={gutenbergAOSAnimation}
 									options={[
+										/**
+										 * Fade animations
+										 */
+										{
+											label: 'Fade',
+											value: 'fade'
+										},
 										{
 											label: 'Fade Up',
 											value: 'fade-up'
@@ -118,6 +125,9 @@ const gutenbergAOSControls = createHigherOrderComponent((BlockEdit) => {
 											label: 'Fade Down Right',
 											value: 'fade-down-right'
 										},
+										/**
+										 * Flip animations
+										 */
 										{
 											label: 'Flip Left',
 											value: 'flip-left'
@@ -134,6 +144,28 @@ const gutenbergAOSControls = createHigherOrderComponent((BlockEdit) => {
 											label: 'Flip Down',
 											value: 'flip-down'
 										},
+										/**
+										 * Slide animations
+										 */
+										{
+											label: 'Slide Up',
+											value: 'slide-up'
+										},
+										{
+											label: 'Slide Down',
+											value: 'slide-down'
+										},
+										{
+											label: 'Slide Left',
+											value: 'slide-left'
+										},
+										{
+											label: 'Slide Right',
+											value: 'slide-right'
+										},
+										/**
+										 * Zoom animations
+										 */
 										{
 											label: 'Zoom In',
 											value: 'zoom-in'
