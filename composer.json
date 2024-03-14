@@ -1,0 +1,21 @@
+{
+    "name": "bfiessinger/aos-for-gutenberg",
+    "description": "AOS Animations for the WordPress Gutenberg Editor",
+    "keywords": [
+        "aos",
+        "animations",
+        "gutenberg",
+        "wordpress",
+        "wordpress-plugin"
+    ],
+    "type": "wordpress-plugin",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Bastian Fießinger"
+        }
+    ],
+    "require": {
+        "php": ">=5.6"
+    }
+}
