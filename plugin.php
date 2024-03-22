@@ -132,6 +132,9 @@ class aos {
 	function enqueue_aos_script() {
 
 		global $post;
+		
+		if ( ! $post ) return;
+		
 		$blocks_parsed = parse_blocks( $post->post_content );
 
 		$this->check_inner_blocks( $blocks_parsed );
