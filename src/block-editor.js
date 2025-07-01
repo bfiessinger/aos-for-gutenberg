@@ -6,7 +6,9 @@ const { addFilter } = wp.hooks;
 const { Fragment } = wp.element;
 const { InspectorControls } = wp.blockEditor;
 const { createHigherOrderComponent, withState } = wp.compose;
-const { ToggleControl, SelectControl, PanelBody, PanelRow } = wp.components;
+const { ToggleControl, SelectControl, PanelBody, PanelRow, TextControl } = wp.components;
+
+
 
 /**
  * Add custom attribute for AOS.
@@ -28,6 +30,14 @@ function gutenbergAOSAttributes(settings) {
 			gutenbergAOSAnimation: {
 				type: 'select',
 				default: 'fade-up'
+			},
+			gutenbergAOSDelay: {
+				type: 'number',
+				default: 0,
+			},
+			gutenbergAOSDuration: {
+				type: 'number',
+				default: 400,
 			}
 		});
 
@@ -64,7 +74,9 @@ const gutenbergAOSControls = createHigherOrderComponent((BlockEdit) => {
 
 		const {
 			gutenbergUseAOS,
-			gutenbergAOSAnimation
+			gutenbergAOSAnimation,
+			gutenbergAOSDelay,
+			gutenbergAOSDuration
 		} = attributes;
 
 		return (
@@ -210,6 +222,28 @@ const gutenbergAOSControls = createHigherOrderComponent((BlockEdit) => {
 									onChange={(gutenbergAOSAnimation) => props.setAttributes({ gutenbergAOSAnimation: gutenbergAOSAnimation })}
 								/>
 							</PanelRow>
+							<PanelRow>
+								<TextControl
+									label={__('Delay (ms)', 'gutenberg-aos')}
+									value={gutenbergAOSDelay}
+									onChange={(value) => setAttributes({ gutenbergAOSDelay: parseInt(value) || 0 })}
+									type="number"
+									min={0}
+									max={2000}
+									step={50}
+								/>
+							</PanelRow>
+							<PanelRow>
+								<TextControl
+									label={__('Duration (ms)', 'gutenberg-aos')}
+									value={gutenbergAOSDuration}
+									onChange={(value) => setAttributes({ gutenbergAOSDuration: parseInt(value) || 400 })}
+									type="number"
+									min={0}
+									max={2000}
+									step={50}
+								/>
+							</PanelRow>
 						</PanelBody>
 					</InspectorControls>
 				}
@@ -235,7 +269,9 @@ function gutenbergAOSApplyAttributes(extraProps, blockType, attributes) {
 
 	const {
 		gutenbergUseAOS,
-		gutenbergAOSAnimation
+		gutenbergAOSAnimation,
+		gutenbergAOSDelay,
+		gutenbergAOSDuration
 	} = attributes;
 
 	//check if attribute exists for old Gutenberg version compatibility
@@ -249,6 +285,13 @@ function gutenbergAOSApplyAttributes(extraProps, blockType, attributes) {
 		}
 
 		extraProps['data-aos'] = animationName;
+
+		if (typeof gutenbergAOSDelay !== 'undefined' && gutenbergAOSDelay !== 0) {
+			extraProps['data-aos-delay'] = gutenbergAOSDelay;
+		}
+		if (typeof gutenbergAOSDuration !== 'undefined' && gutenbergAOSDuration !== 400) {
+			extraProps['data-aos-duration'] = gutenbergAOSDuration;
+		}
 
 	}
 
